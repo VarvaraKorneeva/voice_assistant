@@ -19,6 +19,7 @@ temperature_units = (('градус', 'градуса', 'градусов'), 'm'
 
 ask_time_commands = ['сколько сейчас времени', 'скажи время', 'время', 'сколько времени']
 ask_weather_commands = ['расскажи о погоде', 'погода', 'какая погода']
+help_commands = ['помощь']
 
 language = 'ru'
 model_id = 'ru_v3'
@@ -104,13 +105,21 @@ def say_current_time():
     print("Текущее время: ", current_time)
     hour_str = num2text(hour, hours_units)
     min_str = num2text(min, minutes_units)
-    voice_acting(hour_str + min_str)
+    voice_acting(hour_str + min_str + '.')
 
 
 def say_weather():
     temperature, sky = get_weather_information()
     temperature_str = num2text(int(temperature), temperature_units)
-    voice_acting(temperature_str + '.' + sky)
+    voice_acting(temperature_str + '.' + sky + '.')
+
+
+def help_():
+    print('Чтобы получить информацию о возможностях помощника скажите:', ', '.join(help_commands))
+    print('Чтобы узнать время скажите одну из следующих команд:', ', '.join(ask_time_commands))
+    print('Чтобы узнать погоду скажите одну из следующих команд:', ', '.join(ask_weather_commands))
+    message = 'Я могу рассказать о погоде или сказать текущее время.'
+    voice_acting(message)
 
 
 if __name__ == '__main__':
@@ -121,5 +130,7 @@ if __name__ == '__main__':
             say_current_time()
         elif recognized_text in ask_weather_commands:
             say_weather()
+        elif recognized_text in help_commands:
+            help_()
         elif recognized_text:
             voice_acting(recognized_text)
