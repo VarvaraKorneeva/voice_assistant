@@ -6,3 +6,5 @@ PyAudio
 omegaconf
 numpy
 git+https://github.com/seriyps/ru_number_to_text.git#egg=num2t4ru
+requests
+beautifulsoup4

@@ -11,10 +11,14 @@ import sounddevice as sd
 from num2t4ru import num2text
 from vosk import Model, KaldiRecognizer
 
+from requests_to_google import get_weather_information
+
 hours_units = (('час', 'часа', 'часов'), 'm')
 minutes_units = (('минута', 'минуты', 'минут'), 'f')
+temperature_units = (('градус', 'градуса', 'градусов'), 'm')
 
 ask_time_commands = ['сколько сейчас времени', 'скажи время', 'время', 'сколько времени']
+ask_weather_commands = ['расскажи о погоде', 'погода', 'какая погода']
 
 language = 'ru'
 model_id = 'ru_v3'
@@ -103,11 +107,19 @@ def say_current_time():
     voice_acting(hour_str + min_str)
 
 
+def say_weather():
+    temperature, sky = get_weather_information()
+    temperature_str = num2text(int(temperature), temperature_units)
+    voice_acting(temperature_str + '.' + sky)
+
+
 if __name__ == '__main__':
     while True:
         recognized_text = recognition()
         print(recognized_text)
         if recognized_text in ask_time_commands:
             say_current_time()
+        elif recognized_text in ask_weather_commands:
+            say_weather()
         elif recognized_text:
             voice_acting(recognized_text)
