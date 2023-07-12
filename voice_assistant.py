@@ -39,7 +39,7 @@ model, _ = torch.hub.load(repo_or_dir='snakers4/silero-models',
 
 model.to(device)
 
-model_for_recognition = Model("model")
+model_for_recognition = Model("vosk-model-small-ru-0.22")
 samplerate = 16000
 device = 1
 
