@@ -75,7 +75,7 @@ def recognition():
         with open("microphone-results.wav", "wb") as file:
             file.write(audio.get_wav_data())
         try:
-            print("Started recognition...")
+            print("Recognition...")
             recognized_text = recognizer.recognize_google(audio_data=audio, language=language).lower()
         except speech_recognition.RequestError:
             recognized_text = offline_recognition()
@@ -102,7 +102,7 @@ def say_current_time():
     current_time = now.strftime("%H:%M")
     hour = int(now.strftime("%H"))
     min = int(now.strftime("%M"))
-    print("Текущее время: ", current_time)
+    print("Время: ", current_time)
     hour_str = num2text(hour, hours_units)
     min_str = num2text(min, minutes_units)
     voice_acting(hour_str + min_str + '.')
@@ -110,8 +110,11 @@ def say_current_time():
 
 def say_weather():
     temperature, sky = get_weather_information()
-    temperature_str = num2text(int(temperature), temperature_units)
-    voice_acting(temperature_str + '.' + sky + '.')
+    if temperature and sky:
+        temperature_str = num2text(int(temperature), temperature_units)
+        print(f'Температура: {temperature}')
+        print(f'Осадки: {sky}')
+        voice_acting(temperature_str + '.' + sky + '.')
 
 
 def help_():
@@ -133,4 +136,4 @@ if __name__ == '__main__':
         elif recognized_text in help_commands:
             help_()
         elif recognized_text:
-            voice_acting(recognized_text)
+            voice_acting(recognized_text + '.')
